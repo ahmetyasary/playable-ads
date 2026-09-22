@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="icon" type="image/png" href="./favicon.png" />
+    <link rel="icon" type="image/png" href="/playable-ads/favicon.png" />
     <title>AHMET YAŞAR YILDIRIM — Playable Ads</title>
     <style>
       :root {
@@ -124,10 +124,10 @@
       <p class="eyebrow">Playable Ads · PixiJS</p>
       <h1>Ahmet Yaşar Yıldırım</h1>
       <p class="sub">Portfolio</p>
-      <p class="lead">Developer — her oyun ayrı sayfada açılır (GitHub Pages uyumlu).</p>
+      <p class="lead">Developer — her kart kendi HTML sayfasını açar.</p>
 
       <div class="grid">
-        <a class="card" href="./puzzle-lab.html">
+        <a class="card" href="/playable-ads/puzzle-lab.html">
           <div class="preview preview-pour"></div>
           <div class="body">
             <span class="tag">Puzzle</span>
@@ -136,7 +136,7 @@
             <span class="play">Play</span>
           </div>
         </a>
-        <a class="card" href="./block-catch.html">
+        <a class="card" href="/playable-ads/block-catch.html">
           <div class="preview preview-blocks"></div>
           <div class="body">
             <span class="tag">Puzzle</span>
@@ -145,7 +145,7 @@
             <span class="play">Play</span>
           </div>
         </a>
-        <a class="card" href="./draw-path.html">
+        <a class="card" href="/playable-ads/draw-path.html">
           <div class="preview preview-draw"></div>
           <div class="body">
             <span class="tag">Draw</span>
@@ -154,7 +154,7 @@
             <span class="play">Play</span>
           </div>
         </a>
-        <a class="card" href="./tap-titan.html">
+        <a class="card" href="/playable-ads/tap-titan.html">
           <div class="preview preview-tap"></div>
           <div class="body">
             <span class="tag">Tap</span>
@@ -163,7 +163,7 @@
             <span class="play">Play</span>
           </div>
         </a>
-        <a class="card" href="./glow-up.html">
+        <a class="card" href="/playable-ads/glow-up.html">
           <div class="preview preview-glow"></div>
           <div class="body">
             <span class="tag">Makeover</span>
@@ -172,7 +172,7 @@
             <span class="play">Play</span>
           </div>
         </a>
-        <a class="card" href="./one-more-wave.html">
+        <a class="card" href="/playable-ads/one-more-wave.html">
           <div class="preview preview-wave"></div>
           <div class="body">
             <span class="tag">Action</span>
@@ -181,7 +181,7 @@
             <span class="play">Play</span>
           </div>
         </a>
-        <a class="card" href="./aether-slash.html">
+        <a class="card" href="/playable-ads/aether-slash.html">
           <div class="preview preview-slash"></div>
           <div class="body">
             <span class="tag">Slash</span>
@@ -190,7 +190,7 @@
             <span class="play">Play</span>
           </div>
         </a>
-        <a class="card" href="./orbit-heist.html">
+        <a class="card" href="/playable-ads/orbit-heist.html">
           <div class="preview preview-orbit"></div>
           <div class="body">
             <span class="tag">Gravity</span>
@@ -199,7 +199,7 @@
             <span class="play">Play</span>
           </div>
         </a>
-        <a class="card" href="./moon-fox.html">
+        <a class="card" href="/playable-ads/moon-fox.html">
           <div class="preview preview-fox"></div>
           <div class="body">
             <span class="tag">Escape</span>
@@ -208,7 +208,7 @@
             <span class="play">Play</span>
           </div>
         </a>
-        <a class="card" href="./rift-rush.html">
+        <a class="card" href="/playable-ads/rift-rush.html">
           <div class="preview preview-rift"></div>
           <div class="body">
             <span class="tag">Runner</span>
@@ -219,5 +219,14 @@
         </a>
       </div>
     </main>
+    <script>
+      // Force hard navigation (avoids sticky SPA/hash leftovers in some browsers).
+      document.querySelectorAll("a.card").forEach(function (a) {
+        a.addEventListener("click", function (e) {
+          e.preventDefault();
+          window.location.assign(a.href);
+        });
+      });
+    </script>
   </body>
 </html>
