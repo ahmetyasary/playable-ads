@@ -6,7 +6,7 @@
   "scripts": {
     "start": "npm run dev",
     "build": "tsc && vite build",
-    "build:pages": "tsc && vite build",
+    "build:pages": "node scripts/build-gh-pages.mjs",
     "build:puzzle-lab": "vite build --config vite.puzzle-lab.config.ts",
     "build:block-catch": "vite build --config vite.block-catch.config.ts",
     "build:share": "npm run build:puzzle-lab && npm run build:block-catch",
