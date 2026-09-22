@@ -63,6 +63,15 @@ function applyGuide() {
   }
 }
 
+function showLoading(label = "Loading…") {
+  container.classList.add("is-on");
+  container.innerHTML = "";
+  const el = document.createElement("div");
+  el.className = "boot-loading";
+  el.innerHTML = `<p>${label}</p><p class="boot-sub">Oyun yükleniyor / Starting playable</p>`;
+  container.appendChild(el);
+}
+
 function showHome() {
   home.hidden = false;
   backBtn.hidden = true;
@@ -75,6 +84,7 @@ function showHome() {
   syncLangUi();
   guide.hidden = true;
   container.classList.remove("is-on");
+  container.innerHTML = "";
 }
 
 function showGame(id: string) {
@@ -89,6 +99,7 @@ function showGame(id: string) {
   container.classList.add("is-on");
   applyGuide();
   guide.hidden = true;
+  showLoading();
 }
 
 async function stopGame() {
@@ -96,12 +107,17 @@ async function stopGame() {
     currentApp.destroy(true);
     currentApp = null;
   }
-  container.innerHTML = "";
 }
+
+let routeToken = 0;
 
 async function route() {
   const id = gameIdFromHash();
+  const token = ++routeToken;
   await stopGame();
+  if (token !== routeToken) {
+    return;
+  }
 
   if (!id || !games[id]) {
     showHome();
@@ -110,11 +126,19 @@ async function route() {
 
   showGame(id);
   try {
-    currentApp = await games[id](container);
+    const app = await games[id](container);
+    if (token !== routeToken) {
+      app.destroy(true);
+      return;
+    }
+    currentApp = app;
     if (guideHasTr(id)) {
       setAppLang(lang);
     }
   } catch (error) {
+    if (token !== routeToken) {
+      return;
+    }
     console.error("[playable]", id, error);
     container.innerHTML = "";
     const msg = document.createElement("pre");
@@ -124,6 +148,23 @@ async function route() {
     container.appendChild(msg);
   }
 }
+
+home.addEventListener("click", (event) => {
+  const link = (event.target as HTMLElement).closest("a.card");
+  if (!link) {
+    return;
+  }
+  const href = link.getAttribute("href");
+  if (!href?.startsWith("#/")) {
+    return;
+  }
+  event.preventDefault();
+  if (location.hash === href) {
+    void route();
+    return;
+  }
+  location.hash = href;
+});
 
 backBtn.addEventListener("click", () => {
   window.location.hash = "";

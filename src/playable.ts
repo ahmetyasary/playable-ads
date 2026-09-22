@@ -48,6 +48,12 @@ export async function createPlayable(
     },
   });
   container.appendChild(app.canvas);
+  // Remove boot loader once the canvas is ready.
+  for (const node of [...container.childNodes]) {
+    if (node !== app.canvas) {
+      node.remove();
+    }
+  }
 
   const root = new Container();
   app.stage.addChild(root);

@@ -167,6 +167,46 @@
     <button id="howto-btn" class="howto-btn" type="button" hidden>How to play</button>
     <aside id="guide" class="guide" hidden></aside>
     <div id="pixi-container"></div>
+    <script>
+      // Instant feedback before the Pixi bundle finishes downloading.
+      (function () {
+        function syncBoot() {
+          var id = location.hash.replace(/^#\/?/, "");
+          var home = document.getElementById("home");
+          var pixi = document.getElementById("pixi-container");
+          var back = document.getElementById("back-btn");
+          var howto = document.getElementById("howto-btn");
+          if (!home || !pixi) return;
+          if (!id) {
+            home.hidden = false;
+            pixi.classList.remove("is-on");
+            if (back) back.hidden = true;
+            if (howto) howto.hidden = true;
+            return;
+          }
+          home.hidden = true;
+          pixi.classList.add("is-on");
+          if (back) back.hidden = false;
+          if (howto) howto.hidden = false;
+          if (!pixi.querySelector("canvas") && !pixi.querySelector(".boot-loading")) {
+            pixi.innerHTML =
+              '<div class="boot-loading"><p>Loading…</p><p class="boot-sub">Oyun yükleniyor / Starting playable</p></div>';
+          }
+        }
+        window.addEventListener("hashchange", syncBoot);
+        syncBoot();
+        window.addEventListener("error", function (e) {
+          if (!String(e.filename || "").includes("/assets/")) return;
+          var pixi = document.getElementById("pixi-container");
+          if (!pixi) return;
+          pixi.classList.add("is-on");
+          pixi.innerHTML =
+            '<pre style="color:#fff;padding:24px;white-space:pre-wrap">Script load failed. Hard refresh (Cmd+Shift+R) and try again.\\n' +
+            (e.message || "") +
+            "</pre>";
+        });
+      })();
+    </script>
     <script type="module" src="/src/main.ts"></script>
 </body>
 </html>
