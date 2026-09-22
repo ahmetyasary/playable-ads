@@ -109,9 +109,19 @@ async function route() {
   }
 
   showGame(id);
-  currentApp = await games[id](container);
-  if (guideHasTr(id)) {
-    setAppLang(lang);
+  try {
+    currentApp = await games[id](container);
+    if (guideHasTr(id)) {
+      setAppLang(lang);
+    }
+  } catch (error) {
+    console.error("[playable]", id, error);
+    container.innerHTML = "";
+    const msg = document.createElement("pre");
+    msg.style.cssText =
+      "color:#fff;padding:24px;white-space:pre-wrap;font:14px/1.4 monospace";
+    msg.textContent = `Failed to start "${id}":\n${error instanceof Error ? error.stack || error.message : String(error)}`;
+    container.appendChild(msg);
   }
 }
 

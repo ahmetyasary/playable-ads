@@ -26,8 +26,13 @@ export async function createPlayable(
   container: HTMLElement,
   background: number,
 ) {
-  await document.fonts.ready;
+  await Promise.race([
+    document.fonts.ready,
+    new Promise<void>((resolve) => window.setTimeout(resolve, 2000)),
+  ]);
   await preloadHand();
+  // Ensure container has layout after display:block (Pages / hash route).
+  await new Promise<void>((resolve) => requestAnimationFrame(() => resolve()));
 
   const app = new Application();
   await app.init({
@@ -36,7 +41,11 @@ export async function createPlayable(
     antialias: true,
     autoDensity: true,
     preference: "webgl",
-    resolution: Math.min(window.devicePixelRatio || 1, 3),
+    resolution: Math.min(window.devicePixelRatio || 1, 2),
+    failIfMajorPerformanceCaveat: false,
+    webgl: {
+      preserveDrawingBuffer: true,
+    },
   });
   container.appendChild(app.canvas);
 
@@ -68,16 +77,23 @@ export async function createPlayable(
 
   const fit = () => {
     const pad = 24;
-    const scale = Math.min(
-      (app.screen.width - pad * 2) / GAME_W,
-      (app.screen.height - pad * 2) / GAME_H,
-    );
+    const sw = Math.max(app.screen.width, container.clientWidth, 1);
+    const sh = Math.max(app.screen.height, container.clientHeight, 1);
+    const scale = Math.min((sw - pad * 2) / GAME_W, (sh - pad * 2) / GAME_H);
+    if (!(scale > 0) || !Number.isFinite(scale)) {
+      return;
+    }
     root.scale.set(scale);
-    root.x = (app.screen.width - GAME_W * scale) / 2;
-    root.y = (app.screen.height - GAME_H * scale) / 2;
+    root.x = (sw - GAME_W * scale) / 2;
+    root.y = (sh - GAME_H * scale) / 2;
   };
   fit();
   app.renderer.on("resize", fit);
+  requestAnimationFrame(fit);
+  window.setTimeout(fit, 50);
+  window.setTimeout(fit, 250);
+
+  (window as unknown as { __playableApp?: Application }).__playableApp = app;
 
   return { app, world };
 }

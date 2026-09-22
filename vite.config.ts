@@ -1,8 +1,8 @@
 import { defineConfig } from "vite";
 
-// Project Pages: https://ahmetyasary.github.io/playable-ads/
+// Relative base works for GitHub project Pages (/playable-ads/).
 export default defineConfig({
-  base: "/playable-ads/",
+  base: "./",
   server: {
     port: 8080,
     open: true,
