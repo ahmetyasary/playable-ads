@@ -1,0 +1,30 @@
+{
+  "name": "pixi-project",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "npm run dev",
+    "build": "tsc && vite build",
+    "build:pages": "tsc && vite build",
+    "build:puzzle-lab": "vite build --config vite.puzzle-lab.config.ts",
+    "build:block-catch": "vite build --config vite.block-catch.config.ts",
+    "build:share": "npm run build:puzzle-lab && npm run build:block-catch",
+    "lint": "eslint .",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "pixi.js": "^8.8.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.21.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.1.2",
+    "eslint-plugin-prettier": "^5.2.6",
+    "prettier": "^3.5.3",
+    "typescript": "~5.7.3",
+    "typescript-eslint": "^8.25.0",
+    "vite": "^6.2.0",
+    "vite-plugin-singlefile": "^2.3.3"
+  }
+}

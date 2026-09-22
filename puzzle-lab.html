@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <title>Puzzle Lab — Ahmet Yaşar Yıldırım</title>
+    <style>
+      html,
+      body,
+      #game {
+        margin: 0;
+        padding: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: #07080d;
+        touch-action: none;
+        font-family: Arial, sans-serif;
+      }
+
+      #game {
+        position: fixed;
+        inset: 0;
+      }
+
+      #howto-btn,
+      #lang-switch,
+      #guide,
+      #guide button,
+      .lang {
+        font-family: Arial, sans-serif;
+      }
+
+      #lang-switch {
+        position: fixed;
+        top: 16px;
+        left: 16px;
+        z-index: 8;
+        display: inline-flex;
+        gap: 6px;
+      }
+
+      .lang {
+        min-width: 40px;
+        padding: 8px 10px;
+        border: 1px solid #2a3148;
+        border-radius: 999px;
+        background: #1a2033;
+        color: #9aa3d0;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+      }
+
+      .lang.is-on {
+        border-color: #4cc9f0;
+        background: #4cc9f0;
+        color: #0b1220;
+      }
+
+      #howto-btn {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        z-index: 8;
+        border: 0;
+        border-radius: 999px;
+        padding: 10px 14px;
+        background: #1a2033;
+        color: #eef1ff;
+        font-size: 13px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      #guide {
+        position: fixed;
+        top: 64px;
+        right: 16px;
+        z-index: 8;
+        width: min(320px, calc(100vw - 32px));
+        box-sizing: border-box;
+        padding: 18px 18px 16px;
+        border-radius: 16px;
+        background: #12151f;
+        color: #eef1ff;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.35);
+      }
+
+      #guide[hidden] {
+        display: none;
+      }
+
+      #guide h2 {
+        margin: 0 0 12px;
+        font-size: 18px;
+      }
+
+      #guide ol {
+        margin: 0;
+        padding-left: 18px;
+        color: #c5c9d8;
+        line-height: 1.45;
+      }
+
+      #guide p {
+        margin: 12px 0 0;
+        color: #9aa3d0;
+        font-size: 13px;
+      }
+
+      #guide .close {
+        margin-top: 14px;
+        border: 0;
+        border-radius: 10px;
+        padding: 8px 12px;
+        background: #4cc9f0;
+        color: #0b1220;
+        font-weight: 800;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="game"></div>
+    <div id="lang-switch" role="group" aria-label="Language">
+      <button class="lang is-on" type="button" data-lang="en">EN</button>
+      <button class="lang" type="button" data-lang="tr">TR</button>
+    </div>
+    <button id="howto-btn" type="button">How to play</button>
+    <aside id="guide" hidden>
+      <h2>Puzzle Lab</h2>
+      <ol data-copy="steps"></ol>
+      <p data-copy="goal"></p>
+      <button class="close" type="button" data-copy="close">Close</button>
+    </aside>
+    <script type="module" src="/src/standalone/puzzle-lab-main.ts"></script>
+  </body>
+</html>
