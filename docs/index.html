@@ -219,14 +219,5 @@
         </a>
       </div>
     </main>
-    <script>
-      // Force hard navigation (avoids sticky SPA/hash leftovers in some browsers).
-      document.querySelectorAll("a.card").forEach(function (a) {
-        a.addEventListener("click", function (e) {
-          e.preventDefault();
-          window.location.assign(a.href);
-        });
-      });
-    </script>
   </body>
 </html>
